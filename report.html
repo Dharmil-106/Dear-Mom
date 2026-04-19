@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empathy Quiz - DearMom</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Progress Report - DearMom</title>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
@@ -31,19 +31,19 @@
 </nav>
 
     <main class="main-content">
-        <div id="quiz-container" class="quiz-container">
-            <h2 id="question-text">Question goes here...</h2>
-            <div id="answer-buttons">
+        <div class="tasks-container">
+             <h1 style="color: #e15d97; font-size: 2rem; text-align: center; margin-bottom: 2rem;">Your Wellness Journey</h1>
+            <div class="card">
+                <h2 class="card-title">Weekly Mood Trend</h2>
+                <div style="height: 300px;">
+                    <canvas id="moodChart"></canvas>
                 </div>
-            <button id="next-btn" class="button-primary hidden">Next</button>
-        </div>
-
-        <div id="score-container" class="quiz-container hidden">
-            <h2 id="score-text">You scored 0 out of 0!</h2>
-            <button id="play-again-btn" class="button-primary">Play Again</button>
+            </div>
         </div>
     </main>
 
-    <script src="../js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="./js/main.js"></script>
 </body>
 </html>
