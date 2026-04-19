@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Tracker - DearMom</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+    <a href="./index.html" class="nav-logo">DearMom 💖</a>
+    
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+    
+    <ul class="nav-links" id="navLinks">
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./mood.html">Mood Tracker</a></li>
+        <li><a href="./tasks.html">Couple Tasks</a></li>
+        <li><a href="./relax.html">Relax</a></li>
+        <li><a href="./quiz.html">Quiz</a></li>
+        <li><a href="./chat.html">Connect</a></li>
+        <li><a href="./report.html">Report</a></li>
+    </ul>
+</nav>
+
+    <main class="main-content">
+        <div class="mood-container">
+            <h1 style="color: #e15d97; font-size: 2rem;">How are you feeling right now?</h1>
+            
+            <div class="mood-selection-grid">
+                <button class="mood-button">
+                    <span class="mood-button-emoji">😊</span>
+                    <span class="mood-label">Happy</span>
+                </button>
+                <button class="mood-button">
+                    <span class="mood-button-emoji">😌</span>
+                    <span class="mood-label">Calm</span>
+                </button>
+                <button class="mood-button">
+                    <span class="mood-button-emoji">😢</span>
+                    <span class="mood-label">Sad</span>
+                </button>
+                <button class="mood-button">
+                    <span class="mood-button-emoji">😩</span>
+                    <span class="mood-label">Stressed</span>
+                </button>
+                <button class="mood-button">
+                    <span class="mood-button-emoji">😍</span>
+                    <span class="mood-label">Excited</span>
+                </button>
+                <button class="mood-button">
+                    <span class="mood-button-emoji">😴</span>
+                    <span class="mood-label">Tired</span>
+                </button>
+            </div>
+
+            <button class="button-primary" style="margin-top: 2.5rem; width: 100%; max-width: 300px; padding: 1rem;">
+                Log My Mood
+            </button>
+
+        </div>
+    </main>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

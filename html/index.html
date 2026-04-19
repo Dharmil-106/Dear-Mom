@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - DearMom</title>
+    
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+    <a href="./index.html" class="nav-logo">DearMom 💖</a>
+    
+    <button class="hamburger-btn" id="hamburgerBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+    
+    <ul class="nav-links" id="navLinks">
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./mood.html">Mood Tracker</a></li>
+        <li><a href="./tasks.html">Couple Tasks</a></li>
+        <li><a href="./relax.html">Relax</a></li>
+        <li><a href="./quiz.html">Quiz</a></li>
+        <li><a href="./chat.html">Connect</a></li>
+        <li><a href="./report.html">Report</a></li>
+    </ul>
+</nav>
+
+    <main class="main-content">
+    <div class="dashboard-grid">
+
+        <div class="card">
+            <h2 class="card-title">Today's Mood Summary</h2>
+            <span class="mood-emoji">😊</span>
+            <p class="card-content" style="text-align: center;">
+                Feeling **Happy** today. Keep shining!
+            </p>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🎯 Couple Challenges</h2>
+            <ul class="task-list">
+                <li>
+                    <input type="checkbox" id="task1" checked>
+                    <label for="task1">Say 3 nice things to each other</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="task2">
+                    <label for="task2">Go for a 15-minute walk together</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="task3">
+                    <label for="task3">Plan a healthy meal for tonight</label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">🌸 Relaxation Zone</h2>
+            <p class="card-content">
+                Feeling stressed? Take a moment to relax with our guided breathing exercises.
+            </p>
+            <button class="button-primary" style="margin-top: 1rem;">Start Breathing Exercise</button>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">🧩 Empathy Quiz</h2>
+            <p class="card-content">
+                How well do you know your partner's current journey? Let's find out!
+            </p>
+            <button class="button-primary" style="margin-top: 1rem;">Take the Quiz</button>
+        </div>
+
+    </div>
+</main> 
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
