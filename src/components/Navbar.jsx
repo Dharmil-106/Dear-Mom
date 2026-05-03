@@ -1,14 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const name = localStorage.getItem('dearMomName') || 'User';
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem('dearMomRole');
-    localStorage.removeItem('dearMomName');
-    localStorage.removeItem('dearMomDueDate');
+    logout();
     navigate('/');
   };
 
@@ -17,8 +16,7 @@ const Navbar = () => {
       <div className="max-w-4xl mx-auto flex items-center justify-between">
         <button
           onClick={() => {
-            const role = localStorage.getItem('dearMomRole');
-            navigate(role === 'partner' ? '/partner/dashboard' : '/mom/dashboard');
+            navigate(user?.role === 'partner' ? '/partner/dashboard' : '/mom/dashboard');
           }}
           className="font-display text-xl font-bold text-rose-500 hover:text-rose-600 transition-colors"
         >
@@ -27,7 +25,7 @@ const Navbar = () => {
         
         <div className="flex items-center gap-3">
           <span className="text-sm text-gray-600 font-medium hidden sm:block">
-            Hi, {name} 👋
+            Hi, {user?.name || 'User'} 👋
           </span>
           <button
             onClick={handleLogout}

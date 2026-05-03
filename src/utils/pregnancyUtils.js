@@ -1,5 +1,5 @@
-export const getDueDateInfo = () => {
-  const dueDateStr = localStorage.getItem('dearMomDueDate');
+// Gets due date info - now accepts dueDate parameter from auth context instead of localStorage
+export const getDueDateInfo = (dueDateStr) => {
   if (!dueDateStr) return { currentWeek: 1, weeksLeft: 40, trimester: 1, daysLeft: 280 };
   
   const dueDate = new Date(dueDateStr);

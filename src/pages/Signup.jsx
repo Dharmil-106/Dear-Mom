@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Lock, Calendar, Heart, Eye, EyeOff, KeyRound } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -28,12 +30,17 @@ const Signup = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     if (!form.name || !form.email || !form.password || !form.role) {
       setError('Please fill in all required fields.');
+      return;
+    }
+
+    if (form.password.length < 6) {
+      setError('Password must be at least 6 characters.');
       return;
     }
 
@@ -44,37 +51,22 @@ const Signup = () => {
 
     setLoading(true);
 
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem('dearMomUsers') || '[]');
-      
-      if (users.find((u) => u.email === form.email)) {
-        setError('An account with this email already exists.');
-        setLoading(false);
-        return;
-      }
-
-      const newUser = {
-        id: Date.now().toString(),
+    try {
+      const userData = await register({
         name: form.name,
         email: form.email,
         password: form.password,
         role: form.role,
-        dueDate: form.role === 'mom' ? form.dueDate : '',
-        partnerCode: form.partnerCode,
-        createdAt: new Date().toISOString(),
-      };
+        dueDate: form.role === 'mom' ? form.dueDate : undefined,
+        partnerCode: form.partnerCode || undefined,
+      });
 
-      users.push(newUser);
-      localStorage.setItem('dearMomUsers', JSON.stringify(users));
-      localStorage.setItem('dearMomRole', form.role);
-      localStorage.setItem('dearMomName', form.name);
-      if (form.role === 'mom' && form.dueDate) {
-        localStorage.setItem('dearMomDueDate', form.dueDate);
-      }
-
-      navigate(form.role === 'partner' ? '/partner/dashboard' : '/mom/dashboard');
+      navigate(userData.role === 'partner' ? '/partner/dashboard' : '/mom/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   return (
@@ -155,6 +147,7 @@ const Signup = () => {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+              <p className="text-xs text-gray-400 mt-1">At least 6 characters</p>
             </div>
 
             {/* Role */}
@@ -213,6 +206,11 @@ const Signup = () => {
                   id="signup-partnercode"
                 />
               </div>
+              <p className="text-xs text-gray-400 mt-1">
+                {form.role === 'partner' 
+                  ? "Ask mom for her 6-digit partner code to link accounts" 
+                  : "You'll get a partner code after signing up"}
+              </p>
             </div>
 
             {/* Submit */}

@@ -1,16 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Heart, Smile, CheckSquare, Gamepad2, Wind, BookHeart } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Landing = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [hearts, setHearts] = useState([]);
 
   useEffect(() => {
     // Check if already logged in
-    const role = localStorage.getItem('dearMomRole');
-    if (role) {
-      navigate(role === 'partner' ? '/partner/dashboard' : '/mom/dashboard');
+    if (user) {
+      navigate(user.role === 'partner' ? '/partner/dashboard' : '/mom/dashboard');
       return;
     }
 
@@ -24,7 +25,7 @@ const Landing = () => {
       emoji: ['💕', '💗', '💖', '🌸', '✨', '💝'][i % 6],
     }));
     setHearts(newHearts);
-  }, [navigate]);
+  }, [navigate, user]);
 
   const handleRoleSelect = (role) => {
     sessionStorage.setItem('tempRole', role);

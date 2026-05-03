@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Send } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const responses = {
   nausea: "Morning sickness is very common, especially in the first trimester. Try eating small meals frequently, avoid spicy food, and keep crackers nearby. Ginger tea can help! Always consult your doctor if it's severe 💕",
@@ -23,7 +24,8 @@ const keywordMap = {
 const quickQuestions = ['Tips for nausea', 'Sleep better', 'Safe exercises', 'What to eat'];
 
 const AskMe = () => {
-  const name = localStorage.getItem('dearMomName') || 'Mom';
+  const { user } = useAuth();
+  const name = user?.name || 'Mom';
   const [messages, setMessages] = useState([
     { id: 1, from: 'bot', text: `Hi ${name}! 🌸 I'm here to help with any pregnancy questions. What's on your mind today?` }
   ]);
@@ -49,7 +51,6 @@ const AskMe = () => {
     setMessages(prev => [...prev, userMsg]);
     setInput('');
     setTyping(true);
-
     setTimeout(() => {
       setTyping(false);
       const botMsg = { id: Date.now() + 1, from: 'bot', text: getResponse(text) };
@@ -60,70 +61,39 @@ const AskMe = () => {
   return (
     <div className="pb-bottom-nav">
       <div className="max-w-2xl mx-auto flex flex-col" style={{ height: 'calc(100vh - 8rem)' }}>
-        {/* Header */}
         <div className="px-4 py-3 bg-white border-b border-rose-50">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center text-lg">🤰</div>
-            <div>
-              <p className="font-semibold text-gray-800 text-sm">DearMom Assistant</p>
-              <p className="text-xs text-green-500">Online</p>
-            </div>
+            <div><p className="font-semibold text-gray-800 text-sm">DearMom Assistant</p><p className="text-xs text-green-500">Online</p></div>
           </div>
         </div>
-
-        {/* Messages */}
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-rose-50/30">
           {messages.map(msg => (
             <div key={msg.id} className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}>
-              {msg.from === 'bot' && (
-                <div className="w-7 h-7 bg-rose-100 rounded-full flex items-center justify-center text-xs mr-2 mt-1 flex-shrink-0">🤰</div>
-              )}
-              <div className={`max-w-[80%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
-                msg.from === 'user'
-                  ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-br-md'
-                  : 'bg-white text-gray-700 shadow-sm border border-gray-100 rounded-bl-md'
-              }`}>
-                {msg.text}
-              </div>
+              {msg.from === 'bot' && (<div className="w-7 h-7 bg-rose-100 rounded-full flex items-center justify-center text-xs mr-2 mt-1 flex-shrink-0">🤰</div>)}
+              <div className={`max-w-[80%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${msg.from === 'user' ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-br-md' : 'bg-white text-gray-700 shadow-sm border border-gray-100 rounded-bl-md'}`}>{msg.text}</div>
             </div>
           ))}
           {typing && (
             <div className="flex justify-start">
               <div className="w-7 h-7 bg-rose-100 rounded-full flex items-center justify-center text-xs mr-2 mt-1">🤰</div>
               <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-md shadow-sm border border-gray-100">
-                <span className="typing-dot"></span>
-                <span className="typing-dot"></span>
-                <span className="typing-dot"></span>
+                <span className="typing-dot"></span><span className="typing-dot"></span><span className="typing-dot"></span>
               </div>
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
-
-        {/* Quick Questions */}
         <div className="px-4 py-2 bg-white border-t border-rose-50 flex gap-2 overflow-x-auto">
           {quickQuestions.map(q => (
-            <button key={q} onClick={() => sendMessage(q)}
-              className="flex-shrink-0 px-3 py-1.5 bg-rose-50 text-rose-500 rounded-full text-xs font-medium hover:bg-rose-100 transition">
-              {q}
-            </button>
+            <button key={q} onClick={() => sendMessage(q)} className="flex-shrink-0 px-3 py-1.5 bg-rose-50 text-rose-500 rounded-full text-xs font-medium hover:bg-rose-100 transition">{q}</button>
           ))}
         </div>
-
-        {/* Input */}
         <div className="px-4 py-3 bg-white border-t border-rose-50">
           <form onSubmit={(e) => { e.preventDefault(); sendMessage(input); }} className="flex gap-2">
-            <input
-              type="text" value={input} onChange={e => setInput(e.target.value)}
-              placeholder="Type your question..."
-              className="flex-1 px-4 py-3 bg-rose-50/50 border border-rose-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300"
-              id="askme-input"
-            />
-            <button type="submit"
-              className="p-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-xl hover:shadow-lg transition"
-              id="askme-send">
-              <Send size={18} />
-            </button>
+            <input type="text" value={input} onChange={e => setInput(e.target.value)} placeholder="Type your question..."
+              className="flex-1 px-4 py-3 bg-rose-50/50 border border-rose-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-300" id="askme-input" />
+            <button type="submit" className="p-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-xl hover:shadow-lg transition" id="askme-send"><Send size={18} /></button>
           </form>
         </div>
       </div>

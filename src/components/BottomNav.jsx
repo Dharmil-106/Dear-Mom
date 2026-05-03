@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { House, Heart, CheckSquare, Wind, LayoutGrid, FileText, MapPin, MessageCircle, Gamepad2, BookHeart, X } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const role = localStorage.getItem('dearMomRole');
+  const { user } = useAuth();
+  const role = user?.role;
   const [showMore, setShowMore] = useState(false);
 
   const isActive = (path) => location.pathname === path;

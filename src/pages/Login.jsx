@@ -1,36 +1,30 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem('dearMomUsers') || '[]');
-      const user = users.find((u) => u.email === email && u.password === password);
-
-      if (user) {
-        localStorage.setItem('dearMomRole', user.role);
-        localStorage.setItem('dearMomName', user.name);
-        if (user.dueDate) {
-          localStorage.setItem('dearMomDueDate', user.dueDate);
-        }
-        navigate(user.role === 'partner' ? '/partner/dashboard' : '/mom/dashboard');
-      } else {
-        setError('Invalid email or password. Please try again.');
-      }
+    try {
+      const userData = await login(email, password);
+      navigate(userData.role === 'partner' ? '/partner/dashboard' : '/mom/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Invalid email or password. Please try again.');
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   return (
@@ -91,6 +85,13 @@ const Login = () => {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+            </div>
+
+            {/* Forgot Password */}
+            <div className="text-right">
+              <Link to="/forgot-password" className="text-xs text-rose-400 hover:text-rose-500 font-medium">
+                Forgot password?
+              </Link>
             </div>
 
             {/* Submit */}
